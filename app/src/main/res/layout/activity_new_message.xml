@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="businessmonk.schoolsapp.NewMessage">
-    <businessmonk.schoolsapp.customfonts.EditTextContent
+    <EditText
         android:hint="Subject"
         android:id="@+id/subject"
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
         android:paddingBottom="2dp"
         android:layout_marginBottom="8dp"
         android:layout_height="wrap_content"/>
-    <businessmonk.schoolsapp.customfonts.EditTextContent
+    <EditText
         android:hint="Message"
         android:gravity="top|left"
         android:id="@+id/message"

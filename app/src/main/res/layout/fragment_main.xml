@@ -33,7 +33,7 @@
                 android:layout_marginRight="15dp"
             />
         </RelativeLayout>
-        <businessmonk.schoolsapp.customfonts.TextViewSubtitle
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mohamed"
@@ -43,7 +43,7 @@
             android:textStyle="bold"
             android:id="@+id/kid_name"
         />
-        <businessmonk.schoolsapp.customfonts.TextViewSubtitle
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/orange_app"

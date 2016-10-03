@@ -17,7 +17,7 @@
     <RelativeLayout android:layout_width="match_parent"
                   android:layout_height="wrap_content"
     >
-    <businessmonk.schoolsapp.customfonts.TextViewSubtitle
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/blue_app"
@@ -27,7 +27,7 @@
         android:id="@+id/header"
         android:paddingLeft="12dp"
     />
-    <businessmonk.schoolsapp.customfonts.TextViewSubtitle
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/orange_app"
@@ -38,7 +38,7 @@
         android:id="@+id/date"
     />
     </RelativeLayout>
-    <businessmonk.schoolsapp.customfonts.TextViewSubtitle
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPrimaryDark"

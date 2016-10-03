@@ -21,7 +21,7 @@
                    android:layout_gravity="center"
                    android:layout_marginBottom="20dp"
         />
-        <businessmonk.schoolsapp.customfonts.EditTextContent
+        <EditText
             android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
         />
-        <businessmonk.schoolsapp.customfonts.EditTextContent
+        <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:text="password"
