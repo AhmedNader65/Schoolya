@@ -34,6 +34,7 @@ import businessmonk.schoolsapp.Models.Student;
 import businessmonk.schoolsapp.Volly.JsonRequest;
 import businessmonk.schoolsapp.fragment.MessagesFragment;
 import businessmonk.schoolsapp.fragment.NotificationFragment;
+import businessmonk.schoolsapp.gcm_push_notification.RegistrationService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -65,6 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.container);
+
+		// start regestration service
+		Intent i = new Intent(this, RegistrationService.class);
+		startService(i);
+		//end
 
 
 		JsonRequest.getDataWithIDArray(this, "parent/student", String.valueOf(Parent.id), new JsonRequest.VolleyCallback() {

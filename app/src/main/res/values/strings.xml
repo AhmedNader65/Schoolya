@@ -4,4 +4,7 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_main2">Main2Activity</string>
+
+    <string name="server_api_key">AIzaSyChEcdUjwTj8jUhBrENTDHuw0eR0xoK9Ts</string>
+    <string name="sender_id">510636624197</string>
 </resources>
