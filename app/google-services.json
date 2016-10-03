@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "510636624197",
+    "project_id": "firebase-schoolya"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:510636624197:android:ac35e65635526b17",
+        "android_client_info": {
+          "package_name": "businessmonk.schoolsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxZEkFADdsUtjifKdetYgvL-slDSfo3Xc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
