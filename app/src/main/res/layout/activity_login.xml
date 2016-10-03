@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/login_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg"
+    tools:context="businessmonk.schoolsapp.Login">
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_centerInParent="true"
+                  android:paddingLeft="32dp"
+                  android:paddingRight="32dp"
+                  android:layout_marginRight="16dp"
+                  android:layout_marginLeft="16dp"
+                  android:orientation="vertical">
+        <ImageView android:layout_width="200dp"
+                   android:layout_height="200dp"
+                   android:src="@drawable/logo"
+                   android:layout_gravity="center"
+                   android:layout_marginBottom="20dp"
+        />
+        <businessmonk.schoolsapp.customfonts.EditTextContent
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_btn_white"
+            android:layout_marginBottom="16dp"
+            android:gravity="left|center"
+            android:hint="Mobile Number"
+            android:text="01234567789"
+            android:textColorHint="#efeeee"
+            android:singleLine="true"
+            android:textSize="22sp"
+            android:textColor="#fff"
+            android:drawableLeft="@drawable/mobile_number"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+        />
+        <businessmonk.schoolsapp.customfonts.EditTextContent
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:text="password"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_btn_white"
+            android:layout_marginBottom="16dp"
+            android:gravity="left|center"
+            android:hint="Password"
+            android:textColorHint="#efeeee"
+            android:singleLine="true"
+            android:textSize="22sp"
+            android:textColor="#fff"
+            android:drawableLeft="@drawable/password"
+            android:paddingLeft="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+        />
+    <ImageView
+        android:id="@+id/login"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/login_button"
+    />
+    </LinearLayout>
+</RelativeLayout>

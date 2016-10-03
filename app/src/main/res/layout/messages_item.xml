@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:padding="16dp"
+              android:layout_height="match_parent">
+    <ImageView android:layout_width="50dp"
+               android:layout_height="50dp"
+               android:id="@+id/direction"
+               android:scaleType="fitXY"
+    android:src="@drawable/sent_icon"
+    />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+    <RelativeLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+    >
+    <businessmonk.schoolsapp.customfonts.TextViewSubtitle
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue_app"
+        android:textSize="16sp"
+        android:text="Month Exam"
+        android:textStyle="bold"
+        android:id="@+id/header"
+        android:paddingLeft="12dp"
+    />
+    <businessmonk.schoolsapp.customfonts.TextViewSubtitle
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/orange_app"
+        android:layout_alignParentRight="true"
+        android:textSize="16sp"
+        android:text="10:30"
+        android:layout_alignBottom="@+id/header"
+        android:id="@+id/date"
+    />
+    </RelativeLayout>
+    <businessmonk.schoolsapp.customfonts.TextViewSubtitle
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:paddingTop="4dp"
+        android:paddingLeft="12dp"
+        android:textSize="14sp"
+        android:id="@+id/content"
+        android:text="Month Exam"
+    />
+    </LinearLayout>
+</LinearLayout>

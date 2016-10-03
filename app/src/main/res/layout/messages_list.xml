@@ -1,0 +1,11 @@
+
+<ListView
+    tools:context="businessmonk.schoolsapp.MainActivity$PlaceholderFragment"
+    android:background="#f4f4f4"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="#999"
+    android:dividerHeight="1dp"
+    android:id="@+id/messages_list"
+    xmlns:tools="http://schemas.android.com/tools"/>
