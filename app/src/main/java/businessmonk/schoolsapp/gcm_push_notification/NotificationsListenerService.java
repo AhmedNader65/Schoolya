@@ -94,6 +94,4 @@ public class NotificationsListenerService extends GcmListenerService {
         return isInBackground;
     }
 
-
-
 }

@@ -37,6 +37,7 @@ import businessmonk.schoolsapp.Login;
  */
 public class JsonRequest {
 	private static final String LOG_TAG = JsonRequest.class.getSimpleName();
+	public static String webServiceUrl = "http://192.168.1.3:8000/api";
 
 	public interface VolleyCallback{
 		void onSuccess(String result) throws JSONException;
@@ -44,7 +45,7 @@ public class JsonRequest {
 	public static void postMessage(final Context context, final VolleyCallback callback,String controller, final String[] queryname, final String[] queryVal){
 		RequestQueue queue = Volley.newRequestQueue(context);
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-		Uri.Builder uri  = Uri.parse("http://192.168.1.2:8000/api").buildUpon();
+		Uri.Builder uri  = Uri.parse(webServiceUrl).buildUpon();
 		uri.appendPath(controller);
 		Log.e("wrong ",uri.toString());
 		StringRequest sr = new StringRequest(Request.Method.POST,uri.toString(), new Response.Listener<String>() {
@@ -193,7 +194,7 @@ public class JsonRequest {
 		MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
 	}
 	public static void getDataWithIDArray(Context context,String parameter,String id,final VolleyCallback callback){
-		Uri.Builder uri  = Uri.parse("http://192.168.1.2:8000/api/").buildUpon();
+		Uri.Builder uri  = Uri.parse(webServiceUrl + "/").buildUpon();
 		uri.appendPath(parameter);
 		uri.appendPath(id);
 		String url = uri.toString();
@@ -285,10 +286,11 @@ public class JsonRequest {
 	}
 	public static void postLogin(final Context context, final String userName, final String password, final VolleyCallback callback){
 		RequestQueue queue = Volley.newRequestQueue(context);
-		StringRequest sr = new StringRequest(Request.Method.POST,"http://192.168.1.2:8000/api/login", new Response.Listener<String>() {
+		StringRequest sr = new StringRequest(Request.Method.POST,webServiceUrl + "/login", new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 				try {
+					Log.d("xxxxxxxx", response + " --- " );
 					callback.onSuccess(response);
 				} catch (JSONException e) {
 					e.printStackTrace();

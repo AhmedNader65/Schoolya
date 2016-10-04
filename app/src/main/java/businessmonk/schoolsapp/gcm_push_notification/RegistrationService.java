@@ -26,6 +26,8 @@ public class RegistrationService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         InstanceID myID = InstanceID.getInstance(this);
 
+        Log.d("aaa", "bbbbbbbbbbbbb");
+
         String registrationToken = "";
         try {
             registrationToken = myID.getToken(
