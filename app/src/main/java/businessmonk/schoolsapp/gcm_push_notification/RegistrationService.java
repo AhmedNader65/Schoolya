@@ -30,12 +30,15 @@ public class RegistrationService extends IntentService {
 
         String registrationToken = "";
         try {
+            GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
+           String regid = gcm.register("510636624197");
             registrationToken = myID.getToken(
                     getString(R.string.sender_id),
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE,
                     null);
-
             Log.d("Registration Token", registrationToken);
+            Log.e("tookennnn",regid );
+            Log.d("hello from ", "service");
 
             GcmPubSub subscription = GcmPubSub.getInstance(this);
 
