@@ -65,7 +65,7 @@ public class NotificationsListenerService extends GcmListenerService {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder.setContentText(bundle.getString("body"));
-        notificationBuilder.setContentTitle("built noti"+bundle.getString("title"));
+        notificationBuilder.setContentTitle(bundle.getString("title"));
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setSmallIcon(R.drawable.inbox_icon);
