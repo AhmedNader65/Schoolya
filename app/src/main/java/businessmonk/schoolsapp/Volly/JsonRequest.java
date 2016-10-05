@@ -37,7 +37,7 @@ import businessmonk.schoolsapp.Login;
  */
 public class JsonRequest {
 	private static final String LOG_TAG = JsonRequest.class.getSimpleName();
-	public static String webServiceUrl = "http://192.168.1.3:8000/api";
+	public static String webServiceUrl = "http://192.168.1.8:9000/api";
 
 	public interface VolleyCallback{
 		void onSuccess(String result) throws JSONException;
@@ -286,7 +286,9 @@ public class JsonRequest {
 	}
 	public static void postLogin(final Context context, final String userName, final String password, final VolleyCallback callback){
 		RequestQueue queue = Volley.newRequestQueue(context);
-		StringRequest sr = new StringRequest(Request.Method.POST,webServiceUrl + "/login", new Response.Listener<String>() {
+		String url = webServiceUrl + "/login";
+		Log.v("login url "," ==> "+url);
+		StringRequest sr = new StringRequest(Request.Method.POST,url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 				try {

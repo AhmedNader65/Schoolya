@@ -1,7 +1,5 @@
 package businessmonk.schoolsapp.gcm_push_notification;
 
-import com.google.android.gms.gcm.GcmListenerService;
-
 import android.app.ActivityManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,7 +12,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.google.android.gms.gcm.GcmListenerService;
+
 import java.util.List;
+import java.util.Set;
 
 import businessmonk.schoolsapp.MainActivity;
 import businessmonk.schoolsapp.R;
@@ -39,14 +40,17 @@ public class NotificationsListenerService extends GcmListenerService {
 
             Log.e("Hey","I am background "+foregroud);
         }
+        for (String key: bundle.keySet())
+        {
+            Log.d ("myApplication", key + " is a key in the bundle");
+        }
+//        Log.e("Hey you", bundle.getal.toString());
 
-        Log.w("Hey you", bundle.getBundle("notification").getString("title"));
+        Set<String> keys = bundle.keySet();
 
-//        Set<String> keys = bundle.keySet();
-//
-//        for(String key : keys){
-//            Log.w("Hey you", key);
-//        }
+        for(String key : keys){
+            Log.w("Hey you", key);
+        }
     }
 
     private void notify(Bundle bundle) {
@@ -58,8 +62,8 @@ public class NotificationsListenerService extends GcmListenerService {
         stackBuilder.addNextIntent(resultIntent);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
-        notificationBuilder.setContentText(bundle.getBundle("notification").getString("body"));
-        notificationBuilder.setContentTitle("built noti"+bundle.getBundle("notification").getString("title"));
+        notificationBuilder.setContentText(bundle.getString("body"));
+        notificationBuilder.setContentTitle("built noti"+bundle.getString("title"));
         PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setSmallIcon(R.drawable.inbox_icon);
