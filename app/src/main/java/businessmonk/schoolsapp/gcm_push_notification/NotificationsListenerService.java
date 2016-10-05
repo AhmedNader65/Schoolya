@@ -37,7 +37,7 @@ public class NotificationsListenerService extends GcmListenerService {
             Log.e("Hey","I am foreground "+foregroud);
             notify(bundle);
         }else{
-
+            notify(bundle);
             Log.e("Hey","I am background "+foregroud);
         }
         for (String key: bundle.keySet())
