@@ -1,11 +1,13 @@
 package businessmonk.schoolsapp.gcm_push_notification;
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -68,6 +70,8 @@ public class NotificationsListenerService extends GcmListenerService {
         notificationBuilder.setContentIntent(pendingIntent);
         notificationBuilder.setSmallIcon(R.drawable.inbox_icon);
         notificationBuilder.setAutoCancel(true);
+        notificationBuilder.setSound( Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.notifysnd));
+        notificationBuilder.setDefaults( Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(Teinda_NOTIFICATION_ID, notificationBuilder.build());
         //refreshing last sync
