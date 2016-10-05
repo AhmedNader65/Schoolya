@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import net.simonvt.schematic.annotation.ContentProvider;
 import net.simonvt.schematic.annotation.ContentUri;
-import net.simonvt.schematic.annotation.InexactContentUri;
 import net.simonvt.schematic.annotation.TableEndpoint;
 
 /**
@@ -29,23 +28,12 @@ public class MoviesProvider {
 			return builder.build();
 		}
 
-		@TableEndpoint(table = MessagesDataBase.Movies) public static class Movies {
+		@TableEndpoint(table = MessagesDataBase.Messages) public static class Messages {
 
 			@ContentUri(
 					path = Path.Messages,
 					type = "vnd.android.cursor.dir/messages",
 					defaultSort = MessagesColumns._ID + " ASC")
 			public static final Uri CONTENT_URI = buildUri(Path.Messages);
-
-			@InexactContentUri(
-					path = Path.Messages + "/#",
-					name = "MESSAGE_ID",
-					type = "vnd.android.cursor.item/messages",
-					whereColumn = MessagesColumns.MOVIE_ID,
-					pathSegment = 1)
-			public static Uri withId(long id) {
-				return buildUri(Path.Messages, String.valueOf(id));
-			}
-
 		}
 }
