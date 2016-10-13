@@ -1,5 +1,6 @@
 package businessmonk.schoolsapp;
 
+import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,8 +16,12 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
+import businessmonk.schoolsapp.Models.Message;
 import businessmonk.schoolsapp.Models.Parent;
 import businessmonk.schoolsapp.Volly.JsonRequest;
+import businessmonk.schoolsapp.data.MessagesColumns;
+import businessmonk.schoolsapp.data.MessagesProvider;
+import businessmonk.schoolsapp.fragment.MessagesFragment;
 
 public class NewMessage extends AppCompatActivity {
 
@@ -54,14 +59,15 @@ public class NewMessage extends AppCompatActivity {
 		int id = item.getItemId();
 		//noinspection SimplifiableIfStatement
 		if (id == R.id.send_message) {
-			String subject = sub.getText().toString();
-			String content_text = content.getText().toString();
+			final String subject = sub.getText().toString();
+			final String content_text = content.getText().toString();
 			if(subject.length()>0) {
 				if(content_text.length()>0) {
 					if(spinner.getSelectedItemPosition() == 0) {
 						JsonRequest.postMessage(this, new JsonRequest.VolleyCallback() {
 							@Override
 							public void onSuccess(String result) throws JSONException {
+								insertData(subject,content_text,"message", String.valueOf(System.currentTimeMillis()));
 								NewMessage.this.finish();
 							}
 						}, "message", new String[]{"parent_id", "subject", "content"}, new String[]{String.valueOf(Parent.id)
@@ -70,6 +76,7 @@ public class NewMessage extends AppCompatActivity {
 						JsonRequest.postMessage(this, new JsonRequest.VolleyCallback() {
 							@Override
 							public void onSuccess(String result) throws JSONException {
+								insertData(subject,content_text,"message", String.valueOf(System.currentTimeMillis()));
 								NewMessage.this.finish();
 							}
 						}, "message", new String[]{"parent_id", "subject", "content", "student_id"}, new String[]{String.valueOf(Parent.id)
@@ -87,5 +94,22 @@ public class NewMessage extends AppCompatActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+	public void insertData(String title,String content,String type,String date) {
+		ContentValues contentValues = new ContentValues();
+		contentValues.put(MessagesColumns.CONTENT, content);
+		contentValues.put(MessagesColumns.SUBJECT, title);
+		contentValues.put(MessagesColumns.TYPE, type);
+		contentValues.put(MessagesColumns.DATE, date);
+		contentValues.put(MessagesColumns.INBOX, 0);
+		getApplicationContext().getContentResolver().insert(MessagesProvider.Messages.CONTENT_URI, contentValues);
+		Message m = new Message();
+		m.content=content;
+		m.title= title;
+		m.date= MessagesFragment.getDayName(this,System.currentTimeMillis());
+		m.inbox= 1;
+		MessagesFragment.list.add(m);
+		MessagesFragment.adapter.notifyDataSetChanged();
+
 	}
 }

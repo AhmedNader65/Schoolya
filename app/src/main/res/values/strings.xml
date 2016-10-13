@@ -7,4 +7,6 @@
 
     <string name="server_api_key">AIzaSyChEcdUjwTj8jUhBrENTDHuw0eR0xoK9Ts</string>
     <string name="sender_id">510636624197</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
 </resources>

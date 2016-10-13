@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import businessmonk.schoolsapp.Models.Message;
@@ -19,6 +21,7 @@ import businessmonk.schoolsapp.Models.Message;
 public class NotiAdapter extends BaseAdapter {
 	LayoutInflater inflater;
 	List<Message> messageList;
+	public static String imm= null;
 	Context mContext;
 	public NotiAdapter(Context context, List<Message> messageList){
 		this.inflater = LayoutInflater.from(context);
@@ -47,10 +50,23 @@ public class NotiAdapter extends BaseAdapter {
 		TextView date = (TextView)v.findViewById(R.id.date);
 		TextView content = (TextView)v.findViewById(R.id.content);
 		ImageView studentPic = (ImageView)v.findViewById(R.id.kid_pic);
-		header.setText(messageList.get(i).title);
-		date.setText(messageList.get(i).date);
-		content.setText(messageList.get(i).content);
-		studentPic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.kid));
+		header.setText(messageList.get(getCount()-i-1).title);
+		date.setText(messageList.get(getCount()-i-1).date);
+		content.setText(messageList.get(getCount()-i-1).content);
+		try{
+			if(messageList.get(getCount()-i-1).img.length()>1){
+				Glide.with(mContext).load(messageList.get(getCount()-i-1).img).into(studentPic);
+			}else{
+				studentPic.setVisibility(View.GONE);
+			}
+		}catch (Exception e){
+			if(imm!=null){
+				Glide.with(mContext).load(imm).into(studentPic);
+			}
+			studentPic.setVisibility(View.GONE);
+			e.printStackTrace();
+		}
+//		studentPic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.kid));
 		Log.e("count", String.valueOf(getCount()));
 		return v;
 	}

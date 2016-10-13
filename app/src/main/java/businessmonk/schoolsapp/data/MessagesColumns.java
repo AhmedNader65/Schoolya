@@ -1,5 +1,7 @@
 package businessmonk.schoolsapp.data;
 
+import android.support.annotation.Nullable;
+
 import net.simonvt.schematic.annotation.AutoIncrement;
 import net.simonvt.schematic.annotation.DataType;
 import net.simonvt.schematic.annotation.NotNull;
@@ -17,8 +19,11 @@ public interface MessagesColumns {
 	@AutoIncrement
 	String _ID = "_id";
 
-	@DataType(TEXT) @NotNull
+	@DataType(INTEGER) @Nullable
 	String STUDENT_ID = "student_id";
+
+	@DataType(TEXT) @NotNull
+	String TYPE = "type";
 
 	@DataType(TEXT) @NotNull
 	String SUBJECT = "subject";
@@ -28,4 +33,12 @@ public interface MessagesColumns {
 
 	@DataType(TEXT) @NotNull
 	String DATE = "date";
+
+
+	@DataType(TEXT) @Nullable
+	String IMAGE = "image";
+
+
+	@DataType(INTEGER) @NotNull
+	String INBOX = "inbox";
 }

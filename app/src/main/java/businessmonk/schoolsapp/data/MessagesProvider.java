@@ -10,14 +10,14 @@ import net.simonvt.schematic.annotation.TableEndpoint;
  * Created by ahmed on 19/08/16.
  */
 
-@ContentProvider(authority = MoviesProvider.AUTHORITY,database = MessagesDataBase.class)
-public class MoviesProvider {
+@ContentProvider(authority = MessagesProvider.AUTHORITY,database = MessagesDataBase.class)
+public class MessagesProvider {
 		public static final String AUTHORITY = "businessmonk.schoolsapp.data.MessagesProvider";
 
 		static final Uri BASE_CONTENT_URI = Uri.parse("content://" + AUTHORITY);
 
 		interface Path {
-			String Messages = "movies";
+			String Messages = "messages";
 		}
 
 		private static Uri buildUri(String... paths) {

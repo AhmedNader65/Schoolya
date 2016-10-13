@@ -47,6 +47,7 @@
         android:textSize="14sp"
         android:id="@+id/content"
         android:text="Month Exam"
+        android:singleLine="true"
     />
     </LinearLayout>
 </LinearLayout>

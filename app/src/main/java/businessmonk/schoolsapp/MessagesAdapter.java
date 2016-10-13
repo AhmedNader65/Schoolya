@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -44,8 +45,17 @@ public class MessagesAdapter extends BaseAdapter {
 		View v = inflater.inflate(R.layout.messages_item,viewGroup,false);
 		TextView header = (TextView)v.findViewById(R.id.header);
 		TextView content = (TextView)v.findViewById(R.id.content);
-		header.setText(messageList.get(i).title);
-		content.setText(messageList.get(i).content);
+		TextView date = (TextView)v.findViewById(R.id.date);
+		ImageView dir = (ImageView) v.findViewById(R.id.direction);
+		date.setText(messageList.get(getCount() -i-1).date);
+		int inbox = messageList.get(getCount() -i-1).inbox;
+		if(inbox==0){
+			dir.setImageDrawable(mContext.getResources().getDrawable(R.drawable.sent_icon));
+		}else{
+			dir.setImageDrawable(mContext.getResources().getDrawable(R.drawable.inbox_icon));
+		}
+		header.setText(messageList.get(getCount() -i-1).title);
+		content.setText(messageList.get(getCount() -i-1).content);
 		Log.e("count", String.valueOf(getCount()));
 		return v;
 	}

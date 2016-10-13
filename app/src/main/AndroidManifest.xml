@@ -64,6 +64,11 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
+        <provider
+            android:authorities="businessmonk.schoolsapp.data.MessagesProvider"
+            android:name="businessmonk.schoolsapp.data.generated.MessagesProvider"
+            android:exported="false"
+            android:syncable="true"/>
     </application>
 
 </manifest>

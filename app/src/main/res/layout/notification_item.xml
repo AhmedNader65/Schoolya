@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:weightSum="5"
+              android:paddingTop="4dp"
+              android:layout_marginBottom="4dp"
               android:gravity="center"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
@@ -61,7 +63,9 @@
                   android:id="@+id/content"
                   android:text="Congratulation to the student of the month, Ahmed Nader"
                   android:paddingLeft="12dp"
+                  android:paddingRight="12dp"
                   android:paddingTop="4dp"
+                  android:paddingBottom="4dp"
                   android:textSize="16sp"
                   android:textColor="@color/white"
         />

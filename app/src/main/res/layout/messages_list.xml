@@ -7,5 +7,6 @@
     android:layout_height="match_parent"
     android:divider="#999"
     android:dividerHeight="1dp"
+    android:transcriptMode="normal"
     android:id="@+id/messages_list"
     xmlns:tools="http://schemas.android.com/tools"/>
