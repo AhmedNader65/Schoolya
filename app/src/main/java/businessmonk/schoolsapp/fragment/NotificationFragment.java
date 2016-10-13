@@ -41,8 +41,14 @@ public class NotificationFragment extends Fragment {
 				Message m = new Message();
 				m.content = c.getString(c.getColumnIndexOrThrow(MessagesColumns.CONTENT));
 				m.title = c.getString(c.getColumnIndexOrThrow(MessagesColumns.SUBJECT));
-				long x = Long.parseLong(c.getString(c.getColumnIndexOrThrow(MessagesColumns.DATE)));
-				m.date = getDayName(getContext(), x);
+				try{
+					String x = c.getString(c.getColumnIndexOrThrow(MessagesColumns.DATE));
+					m.date =x;
+
+				}catch (Exception e) {
+					long x = Long.parseLong(c.getString(c.getColumnIndexOrThrow(MessagesColumns.DATE)));
+					m.date = getDayName(getContext(), x);
+				}
 				m.inbox = c.getInt(c.getColumnIndexOrThrow(MessagesColumns.INBOX));
 				m.img = c.getString(c.getColumnIndexOrThrow(MessagesColumns.IMAGE));
 				list.add(m);

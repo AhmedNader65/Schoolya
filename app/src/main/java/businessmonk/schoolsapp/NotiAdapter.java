@@ -51,7 +51,14 @@ public class NotiAdapter extends BaseAdapter {
 		TextView content = (TextView)v.findViewById(R.id.content);
 		ImageView studentPic = (ImageView)v.findViewById(R.id.kid_pic);
 		header.setText(messageList.get(getCount()-i-1).title);
-		date.setText(messageList.get(getCount()-i-1).date);
+		try {
+			Log.e("date",messageList.get(getCount()-i-1).date);
+			String[] dateArray = messageList.get(getCount()-i-1).date.split(",");
+			date.setText(dateArray[1] + "\n" + dateArray[0]);
+		}catch (Exception e){
+			e.printStackTrace();
+			date.setText(messageList.get(getCount()-i-1).date);
+		}
 		content.setText(messageList.get(getCount()-i-1).content);
 		try{
 			if(messageList.get(getCount()-i-1).img.length()>1){
@@ -62,10 +69,10 @@ public class NotiAdapter extends BaseAdapter {
 		}catch (Exception e){
 			if(imm!=null){
 				Glide.with(mContext).load(imm).into(studentPic);
+			}else {
+				studentPic.setVisibility(View.GONE);
 			}
-			studentPic.setVisibility(View.GONE);
-			e.printStackTrace();
-		}
+			}
 //		studentPic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.kid));
 		Log.e("count", String.valueOf(getCount()));
 		return v;

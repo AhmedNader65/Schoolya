@@ -18,6 +18,7 @@ import com.google.android.gms.gcm.GcmListenerService;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -46,9 +47,6 @@ public class NotificationsListenerService extends GcmListenerService {
         super.onMessageReceived(s, bundle);
 
         try {
-            insertData(bundle.getString("title"), bundle.getString("body"), bundle.getString("type"), String.valueOf(System.currentTimeMillis()));
-        }catch (Exception e){
-            e.printStackTrace();
             b = bundle.getBundle("notification");
             insertData(b.getString("title"), b.getString("body"), b.getString("type"), String.valueOf(System.currentTimeMillis()));
             for (String key: b.keySet())
@@ -60,6 +58,9 @@ public class NotificationsListenerService extends GcmListenerService {
             }catch (Exception er){
                 er.printStackTrace();
             }
+        }catch (Exception e){
+            e.printStackTrace();
+            insertData(bundle.getString("title"), bundle.getString("body"), bundle.getString("type"), String.valueOf(System.currentTimeMillis()));
         }
         boolean foregroud = isAppIsInBackground(getApplicationContext());
         if(!foregroud){
@@ -89,15 +90,21 @@ public class NotificationsListenerService extends GcmListenerService {
         contentValues.put(MessagesColumns.CONTENT, content);
         contentValues.put(MessagesColumns.SUBJECT, title);
         contentValues.put(MessagesColumns.TYPE, type);
-//        Log.e("tyyype",type);
+        Log.e("tyyype",type);
 
-        contentValues.put(MessagesColumns.DATE, date);
         try {
 
             contentValues.put(MessagesColumns.IMAGE,b.getString("image"));
             DateFormat dateFormat = new SimpleDateFormat("MM");
+            DateFormat dateFormat2 = new SimpleDateFormat("DD");
             Date d = new Date();
             Log.d("Month",dateFormat.format(d));
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            Log.d("day",day+"");
+
+            contentValues.put(MessagesColumns.DATE, convertMonthToText(dateFormat.format(d))+","+day);
             NotificationFragment.list.add(m);
             runOnUiThread(new Runnable() {
                 @Override
@@ -108,6 +115,7 @@ public class NotificationsListenerService extends GcmListenerService {
             });
         }catch (Exception e){
             e.printStackTrace();
+            contentValues.put(MessagesColumns.DATE, date);
             MessagesFragment.list.add(m);
             runOnUiThread(new Runnable() {
                 @Override
@@ -166,4 +174,35 @@ public class NotificationsListenerService extends GcmListenerService {
         return isInBackground;
     }
 
+
+    public static String convertMonthToText(String num){
+        switch (num){
+            case "1":
+                return "JAN";
+            case "2":
+                return "FEB";
+            case "3":
+                return "MAR";
+            case "4":
+                return "APR";
+            case "5":
+                return "MAY";
+            case "6":
+                return "JUN";
+            case "7":
+                return "JUL";
+            case "8":
+                return "AUG";
+            case "9":
+                return "SEP";
+            case "10":
+                return "OCT";
+            case "11":
+                return "NOV";
+            case "12":
+                return "DEC";
+            default:
+                return "JAN";
+        }
+    }
 }
