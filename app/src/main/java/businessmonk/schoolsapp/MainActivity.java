@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ import businessmonk.schoolsapp.fragment.NotificationFragment;
 import businessmonk.schoolsapp.gcm_push_notification.RegistrationService;
 
 public class MainActivity extends AppCompatActivity {
+	public static String webServiceUrl = "http://192.168.1.2:9090/";
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -86,10 +88,9 @@ public class MainActivity extends AppCompatActivity {
 					Student son = new Student();
 					son.id = sonObj.getInt("id");
 					son.name =  sonObj.getString("name");
-					son.avatar = sonObj.getString("avatar");
-					son.class_id = sonObj.getInt("class_id");
-					JSONObject classObj = (sonObj.getJSONArray("className")).getJSONObject(0);
-					son.class_name = classObj.getString("title");
+					son.avatar =webServiceUrl+ sonObj.getString("avatar");
+					son.class_id = sonObj.getInt("classroom_id");
+					son.class_name = sonObj.getString("classname");
 					Parent.mySons.add(son);
 				}
 				mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -217,16 +218,22 @@ public class MainActivity extends AppCompatActivity {
 				kidSchudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						if(Parent.mySons.get(0).Schedule.equals("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",0));
 						}
 					}
 				});
+				ImageButton Send = (ImageButton) rootView.findViewById(R.id.send_note);
+				Send.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						startActivity(new Intent(getActivity(), NewMessage.class));
+					}
+				});
 				return rootView;
 			}else if(sonsNum ==2){
-				Toast.makeText(getContext(), "two", Toast.LENGTH_SHORT).show();
 				rootView = inflater.inflate(R.layout.fragment_main2, container, false);
 				ImageView kidPic = (ImageView) rootView.findViewById(R.id.kid_pic);
 				ImageView kidPic2 = (ImageView) rootView.findViewById(R.id.kid2_pic);
@@ -249,8 +256,9 @@ public class MainActivity extends AppCompatActivity {
 				kidSchudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						Log.e("sec",Parent.mySons.get(0).Schedule);
+						if(Parent.mySons.get(0).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 							Log.e("mySons ooo",Parent.mySons.get(0).Schedule);
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",0));
@@ -260,11 +268,19 @@ public class MainActivity extends AppCompatActivity {
 				kid2Schudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						Log.e("sec",Parent.mySons.get(1).Schedule);
+						if(Parent.mySons.get(1).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",1));
 						}
+					}
+				});
+				ImageButton Send = (ImageButton) rootView.findViewById(R.id.send_note);
+				Send.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						startActivity(new Intent(getActivity(), NewMessage.class));
 					}
 				});
 				return rootView;
@@ -298,8 +314,8 @@ public class MainActivity extends AppCompatActivity {
 				kidSchudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						if(Parent.mySons.get(0).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",0));
 						}
@@ -308,8 +324,8 @@ public class MainActivity extends AppCompatActivity {
 				kid2Schudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						if(Parent.mySons.get(1).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",1));
 						}
@@ -318,11 +334,18 @@ public class MainActivity extends AppCompatActivity {
 				kid3Schudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						if(Parent.mySons.get(2).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",2));
 						}
+					}
+				});
+				ImageButton Send = (ImageButton) rootView.findViewById(R.id.send_note);
+				Send.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						startActivity(new Intent(getActivity(), NewMessage.class));
 					}
 				});
 				return rootView;
@@ -365,8 +388,8 @@ public class MainActivity extends AppCompatActivity {
 				kidSchudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						if(Parent.mySons.get(0).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",0));
 						}
@@ -375,8 +398,8 @@ public class MainActivity extends AppCompatActivity {
 				kid2Schudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						if(Parent.mySons.get(1).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",1));
 						}
@@ -385,8 +408,8 @@ public class MainActivity extends AppCompatActivity {
 				kid3Schudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "Not available try again ", Toast.LENGTH_SHORT).show();
+						if(Parent.mySons.get(2).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",2));
 						}
@@ -395,11 +418,18 @@ public class MainActivity extends AppCompatActivity {
 				kid4Schudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						if(Parent.mySons.get(0).Schedule.length()<1) {
-							Toast.makeText(getContext(), "hi ", Toast.LENGTH_SHORT).show();
+						if(Parent.mySons.get(3).Schedule.contains("no_schedule")) {
+							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",3));
 						}
+					}
+				});
+				ImageButton Send = (ImageButton) rootView.findViewById(R.id.send_note);
+				Send.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View view) {
+						startActivity(new Intent(getActivity(), NewMessage.class));
 					}
 				});
 				return rootView;
@@ -413,7 +443,13 @@ public class MainActivity extends AppCompatActivity {
 					JSONArray array = new JSONArray(result);
 					for(int i = 0 ; i <array.length();i++) {
 						JSONObject son = array.getJSONObject(i);
-						String schedule = (son.getJSONArray("schedule").getJSONObject(0)).getString("schedule");
+						String sc = son.getString("schedule");
+						String schedule;
+						if(sc.equals("no_schedule")){
+							schedule = sc;
+						}else {
+							schedule = webServiceUrl +sc;
+						}
 						Parent.mySons.get(i).Schedule = schedule;
 						Log.e("mySons json",schedule);
 						Log.e("mySons schedule",Parent.mySons.get(i).Schedule );

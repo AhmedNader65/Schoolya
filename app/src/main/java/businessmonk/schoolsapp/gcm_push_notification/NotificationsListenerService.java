@@ -44,85 +44,67 @@ public class NotificationsListenerService extends GcmListenerService {
     Bundle b;
     @Override
     public void onMessageReceived(String s, Bundle bundle) {
-        super.onMessageReceived(s, bundle);
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Toast.makeText(getApplicationContext(), "2received!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+        b = bundle;
+            Set<String> keys = bundle.keySet();
 
-        try {
-            b = bundle.getBundle("notification");
-            insertData(b.getString("title"), b.getString("body"), b.getString("type"), String.valueOf(System.currentTimeMillis()));
-            for (String key: b.keySet())
-            {
-                Log.d ("imaggggge", key );
+            for(String key : keys){
+                Log.w("Hey you", key);
             }
-            try{
-                Log.e("image",b.getString("image"));
-            }catch (Exception er){
-                er.printStackTrace();
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+
+            notify(bundle);
             insertData(bundle.getString("title"), bundle.getString("body"), bundle.getString("type"), String.valueOf(System.currentTimeMillis()));
-        }
-        boolean foregroud = isAppIsInBackground(getApplicationContext());
-        if(!foregroud){
-            Log.e("Hey","I am foreground "+foregroud);
-            notify(bundle);
-        }else{
-            notify(bundle);
-            Log.e("Hey","I am background "+foregroud);
-        }
-
-//        Log.e("Hey you", bundle.getal.toString());
-
-        Set<String> keys = bundle.keySet();
-
-        for(String key : keys){
-            Log.w("Hey you", key);
-        }
     }
     public void insertData(String title,String content,String type,String date) {
+        DateFormat dateFormat = new SimpleDateFormat("MM");
+        Date d = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
         Message m = new Message();
         m.content=content;
         m.title= title;
-        m.date= MessagesFragment.getDayName(this,System.currentTimeMillis());
+        m.date=  convertMonthToText(dateFormat.format(d))+","+day;
         m.inbox= 1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MessagesColumns.CONTENT, content);
         contentValues.put(MessagesColumns.SUBJECT, title);
         contentValues.put(MessagesColumns.TYPE, type);
-        Log.e("tyyype",type);
-
         try {
 
             contentValues.put(MessagesColumns.IMAGE,b.getString("image"));
-            DateFormat dateFormat = new SimpleDateFormat("MM");
-            DateFormat dateFormat2 = new SimpleDateFormat("DD");
-            Date d = new Date();
-            Log.d("Month",dateFormat.format(d));
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(d);
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-            Log.d("day",day+"");
-
             contentValues.put(MessagesColumns.DATE, convertMonthToText(dateFormat.format(d))+","+day);
-            NotificationFragment.list.add(m);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    NotificationFragment.adapter.notifyDataSetChanged();
-                    NotificationFragment.adapter.imm =b.getString("image");
-                }
-            });
+            try {
+                NotificationFragment.list.add(m);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        NotificationFragment.adapter.notifyDataSetChanged();
+                        NotificationFragment.adapter.imm = b.getString("image");
+                    }
+                });
+            }catch (Exception e){
+            }
         }catch (Exception e){
             e.printStackTrace();
             contentValues.put(MessagesColumns.DATE, date);
-            MessagesFragment.list.add(m);
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    MessagesFragment.adapter.notifyDataSetChanged();
-                }
-            });
+            try {
+                MessagesFragment.list.add(m);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        MessagesFragment.adapter.notifyDataSetChanged();
+                    }
+                });
+            }catch (Exception ee){
+
+            }
         }
         contentValues.put(MessagesColumns.INBOX, 1);
         getApplicationContext().getContentResolver().insert(MessagesProvider.Messages.CONTENT_URI, contentValues);

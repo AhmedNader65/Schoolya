@@ -1,7 +1,6 @@
 package businessmonk.schoolsapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +49,9 @@ public class NotiAdapter extends BaseAdapter {
 		TextView date = (TextView)v.findViewById(R.id.date);
 		TextView content = (TextView)v.findViewById(R.id.content);
 		ImageView studentPic = (ImageView)v.findViewById(R.id.kid_pic);
+
 		header.setText(messageList.get(getCount()-i-1).title);
 		try {
-			Log.e("date",messageList.get(getCount()-i-1).date);
 			String[] dateArray = messageList.get(getCount()-i-1).date.split(",");
 			date.setText(dateArray[1] + "\n" + dateArray[0]);
 		}catch (Exception e){
@@ -74,7 +73,6 @@ public class NotiAdapter extends BaseAdapter {
 			}
 			}
 //		studentPic.setImageDrawable(mContext.getResources().getDrawable(R.drawable.kid));
-		Log.e("count", String.valueOf(getCount()));
 		return v;
 	}
 }

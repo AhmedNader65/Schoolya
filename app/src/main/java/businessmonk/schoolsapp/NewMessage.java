@@ -35,7 +35,14 @@ public class NewMessage extends AppCompatActivity {
 		bar.setBackgroundDrawable(getResources().getDrawable(R.color.blue_app));
 		sub = (EditText) findViewById(R.id.subject) ;
 		content = (EditText) findViewById(R.id.message) ;
-
+		try{
+			String xx = getIntent().getStringExtra("title");
+			if(xx!=null) {
+				sub.setText("reply :" + xx );
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 		spinner = (Spinner) findViewById(R.id.spinner);
 		List<String> list = new ArrayList<String>();
 		list.add("Public message");
@@ -110,6 +117,5 @@ public class NewMessage extends AppCompatActivity {
 		m.inbox= 1;
 		MessagesFragment.list.add(m);
 		MessagesFragment.adapter.notifyDataSetChanged();
-
 	}
 }

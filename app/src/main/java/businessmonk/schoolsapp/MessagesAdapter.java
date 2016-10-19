@@ -57,6 +57,7 @@ public class MessagesAdapter extends BaseAdapter {
 		header.setText(messageList.get(getCount() -i-1).title);
 		content.setText(messageList.get(getCount() -i-1).content);
 		Log.e("count", String.valueOf(getCount()));
+
 		return v;
 	}
 }

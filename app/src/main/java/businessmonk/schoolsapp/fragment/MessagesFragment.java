@@ -11,12 +11,14 @@ import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import businessmonk.schoolsapp.MessageBody;
 import businessmonk.schoolsapp.MessagesAdapter;
 import businessmonk.schoolsapp.Models.Message;
 import businessmonk.schoolsapp.NewMessage;
@@ -45,6 +47,12 @@ public class MessagesFragment extends Fragment {
 		list = new ArrayList<>();
 		 adapter = new MessagesAdapter(getContext(),list);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				startActivity(new Intent(getContext(), MessageBody.class).putExtra("body",list.get(i).content).putExtra("title",list.get(i).title));
+			}
+		});
 		Cursor c = getActivity().getContentResolver().query(MessagesProvider.Messages.CONTENT_URI,null, MessagesColumns.TYPE+" != ?",new
 		String[]{"public"},null);
 		if(c.moveToFirst()){

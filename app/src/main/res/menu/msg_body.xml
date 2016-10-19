@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="businessmonk.schoolsapp.MainActivity">
+    <item android:id="@+id/del"
+          android:orderInCategory="100"
+          android:icon="@drawable/delete_icon"
+          android:title="Delete"
+          app:showAsAction="always"/>
+    <item android:id="@+id/replay"
+          android:orderInCategory="90"
+          android:icon="@drawable/reply_icon"
+          android:title="Replay"
+          app:showAsAction="always"/>
+</menu>

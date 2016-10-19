@@ -1,6 +1,8 @@
 package businessmonk.schoolsapp.Volly;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -37,7 +39,7 @@ import businessmonk.schoolsapp.Login;
  */
 public class JsonRequest {
 	private static final String LOG_TAG = JsonRequest.class.getSimpleName();
-	public static String webServiceUrl = "http://192.168.1.19:9090/api";
+	public static String webServiceUrl = "http://192.168.1.2:9090/api";
 
 	public interface VolleyCallback{
 		void onSuccess(String result) throws JSONException;
@@ -293,7 +295,13 @@ public class JsonRequest {
 			public void onResponse(String response) {
 				try {
 					Log.d("xxxxxxxx", response + " --- " );
-					callback.onSuccess(response);
+					if(response.contains("wrong")){
+						Toast.makeText(context, "wrong mobile number", Toast.LENGTH_SHORT).show();
+						((Activity) context).finish();
+						context.startActivity(new Intent(context,Login.class));
+					}else {
+						callback.onSuccess(response);
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}

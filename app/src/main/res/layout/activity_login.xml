@@ -29,7 +29,7 @@
             android:layout_marginBottom="16dp"
             android:gravity="left|center"
             android:hint="Mobile Number"
-            android:text="01234567890"
+            android:text="01004806479"
             android:textColorHint="#efeeee"
             android:singleLine="true"
             android:textSize="22sp"
