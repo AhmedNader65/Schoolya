@@ -27,9 +27,11 @@
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
-        <ImageView android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                    android:id="@+id/schedule"
-                   android:scaleType="fitXY"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/schedule"
+            android:gravity="center"
+            android:layout_gravity="center"
         />
     </android.support.design.widget.CoordinatorLayout>

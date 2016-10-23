@@ -32,6 +32,27 @@ import businessmonk.schoolsapp.data.MessagesProvider;
 public class MessagesFragment extends Fragment {
 	public static MessagesAdapter adapter;
 	public static List<Message> list;
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Cursor c = getActivity().getContentResolver().query(MessagesProvider.Messages.CONTENT_URI,null, MessagesColumns.TYPE+" != ?",new
+				String[]{"public"},null);
+		if(c.moveToFirst()){
+			c.moveToFirst();
+			do{
+				Message m = new Message();
+				m.content= c.getString(c.getColumnIndexOrThrow(MessagesColumns.CONTENT));
+				m.title= c.getString(c.getColumnIndexOrThrow(MessagesColumns.SUBJECT));
+				long x = Long.parseLong(c.getString(c.getColumnIndexOrThrow(MessagesColumns.DATE)));
+				m.date= getDayName(getContext(),x);
+				m.inbox= c.getInt(c.getColumnIndexOrThrow(MessagesColumns.INBOX));
+				list.add(m);
+				adapter.notifyDataSetChanged();
+			}while (c.moveToNext());
+		}
+	}
+
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,25 +71,9 @@ public class MessagesFragment extends Fragment {
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				startActivity(new Intent(getContext(), MessageBody.class).putExtra("body",list.get(i).content).putExtra("title",list.get(i).title));
+				startActivity(new Intent(getContext(), MessageBody.class).putExtra("body",list.get(adapter.getCount()-i-1).content).putExtra("title",list.get(i).title));
 			}
 		});
-		Cursor c = getActivity().getContentResolver().query(MessagesProvider.Messages.CONTENT_URI,null, MessagesColumns.TYPE+" != ?",new
-		String[]{"public"},null);
-		if(c.moveToFirst()){
-			c.moveToFirst();
-			do{
-				Message m = new Message();
-				m.content= c.getString(c.getColumnIndexOrThrow(MessagesColumns.CONTENT));
-				m.title= c.getString(c.getColumnIndexOrThrow(MessagesColumns.SUBJECT));
-				long x = Long.parseLong(c.getString(c.getColumnIndexOrThrow(MessagesColumns.DATE)));
-				m.date= getDayName(getContext(),x);
-				m.inbox= c.getInt(c.getColumnIndexOrThrow(MessagesColumns.INBOX));
-				list.add(m);
-				adapter.notifyDataSetChanged();
-			}while (c.moveToNext());
-		}
-
 		return v;
 	}
 	public static String getDayName(Context context, long dateInMillis) {

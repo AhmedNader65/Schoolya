@@ -8,10 +8,10 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 
 import businessmonk.schoolsapp.MainActivity;
+import businessmonk.schoolsapp.MessageBody;
 import businessmonk.schoolsapp.Models.Message;
 import businessmonk.schoolsapp.R;
 import businessmonk.schoolsapp.data.MessagesColumns;
@@ -42,6 +43,7 @@ public class NotificationsListenerService extends GcmListenerService {
 
     private int Teinda_NOTIFICATION_ID = 0;
     Bundle b;
+    String type;
     @Override
     public void onMessageReceived(String s, Bundle bundle) {
 //        runOnUiThread(new Runnable() {
@@ -56,7 +58,7 @@ public class NotificationsListenerService extends GcmListenerService {
             for(String key : keys){
                 Log.w("Hey you", key);
             }
-
+            type = bundle.getString("type");
             notify(bundle);
             insertData(bundle.getString("title"), bundle.getString("body"), bundle.getString("type"), String.valueOf(System.currentTimeMillis()));
     }
@@ -69,15 +71,19 @@ public class NotificationsListenerService extends GcmListenerService {
         Message m = new Message();
         m.content=content;
         m.title= title;
-        m.date=  convertMonthToText(dateFormat.format(d))+","+day;
+        if(type.equals("public")) {
+            m.date = convertMonthToText(dateFormat.format(d)) + "," + day;
+        }else{
+            m.date = MessagesFragment.getDayName(this,System.currentTimeMillis());
+        }
+
         m.inbox= 1;
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MessagesColumns.CONTENT, content);
         contentValues.put(MessagesColumns.SUBJECT, title);
         contentValues.put(MessagesColumns.TYPE, type);
-        try {
-
+        if(type.equals("public")){
             contentValues.put(MessagesColumns.IMAGE,b.getString("image"));
             contentValues.put(MessagesColumns.DATE, convertMonthToText(dateFormat.format(d))+","+day);
             try {
@@ -91,8 +97,7 @@ public class NotificationsListenerService extends GcmListenerService {
                 });
             }catch (Exception e){
             }
-        }catch (Exception e){
-            e.printStackTrace();
+        }else{
             contentValues.put(MessagesColumns.DATE, date);
             try {
                 MessagesFragment.list.add(m);
@@ -114,16 +119,27 @@ public class NotificationsListenerService extends GcmListenerService {
         Context context = getApplicationContext();
 
         //build your notification here.
-        Intent resultIntent = new Intent(context, MainActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntent(resultIntent);
+        Intent resultIntent;
+        if(type.equals("public")){
+            Log.e("Hii","hii");
+            resultIntent = new Intent(context, MainActivity.class);
+            resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            resultIntent.putExtra("noti",true);
+        }else {
+            resultIntent = new Intent(context, MessageBody.class).putExtra("title",bundle.getString("title")).putExtra("body",bundle.getString("body"));
+        }
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+//        stackBuilder.addNextIntent(resultIntent);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
         notificationBuilder.setContentText(bundle.getString("body"));
         notificationBuilder.setContentTitle(bundle.getString("title"));
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         notificationBuilder.setContentIntent(pendingIntent);
-        notificationBuilder.setSmallIcon(R.drawable.inbox_icon);
+        notificationBuilder.setSmallIcon(R.drawable.logo);
+        notificationBuilder.setLargeIcon(((BitmapDrawable)getResources().getDrawable(R.drawable.logo)).getBitmap());
         notificationBuilder.setAutoCancel(true);
         notificationBuilder.setDefaults( Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE|Notification.DEFAULT_SOUND);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

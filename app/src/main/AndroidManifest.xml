@@ -5,7 +5,7 @@
     <permission
         android:name="businessmonk.schoolsapp.permission.C2D_MESSAGE"
         android:protectionLevel="signature"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="businessmonk.schoolsapp.permission.C2D_MESSAGE"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>

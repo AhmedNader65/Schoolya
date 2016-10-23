@@ -65,10 +65,12 @@ public class Login extends AppCompatActivity {
 			public void onSuccess(String result) throws JSONException {
 				JSONObject object = new JSONObject(result);
 				Parent.id=object.getInt("id");
+				edit.putInt("id",object.getInt("id"));
 				edit.putBoolean("logged",true);
 				edit.commit();
 				dialog.dismiss();
 				startActivity(new Intent(Login.this,MainActivity.class));
+				Login.this.finish();
 			}
 		});
 	}

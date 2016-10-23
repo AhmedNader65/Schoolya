@@ -1,7 +1,6 @@
 package businessmonk.schoolsapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,8 +55,6 @@ public class MessagesAdapter extends BaseAdapter {
 		}
 		header.setText(messageList.get(getCount() -i-1).title);
 		content.setText(messageList.get(getCount() -i-1).content);
-		Log.e("count", String.valueOf(getCount()));
-
 		return v;
 	}
 }

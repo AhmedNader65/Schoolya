@@ -55,7 +55,14 @@ public class MainActivity extends AppCompatActivity {
 	 */
 	private ViewPager mViewPager;
 	int sons;
-	@Override
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+       mViewPager.setCurrentItem(2);
+    }
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -75,14 +82,13 @@ public class MainActivity extends AppCompatActivity {
 		//end
 
 
-		JsonRequest.getDataWithIDArray(this, "parent/student", String.valueOf(Parent.id), new JsonRequest.VolleyCallback() {
+		JsonRequest.getDataWithIDArray(this, "parent/student", String.valueOf(sp.getInt("id",0)), new JsonRequest.VolleyCallback() {
 			@Override
 			public void onSuccess(String result) throws JSONException {
 				Log.v("my sons",result);
 				JSONArray mySons = new JSONArray(result);
 				Log.v("my sons", String.valueOf(mySons.length()));
 				sons = mySons.length();
-				Log.e("length", String.valueOf(mySons.length()));
 				for(int i = 0;i<mySons.length();i++){
 					JSONObject sonObj = mySons.getJSONObject(i);
 					Student son = new Student();
@@ -96,10 +102,25 @@ public class MainActivity extends AppCompatActivity {
 				mViewPager.setAdapter(mSectionsPagerAdapter);
 				TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 				tabLayout.setupWithViewPager(mViewPager);
+
+                try {
+                    Intent intent =getIntent();
+                    Log.e("hiii","hiii22");
+                    if(intent==null){
+                        Log.e("intent is ","---> null");
+                    }else {
+                        boolean x=intent.getBooleanExtra("noti",false);
+                        if(x){
+                            Log.e("x is ","---> true");
+                            mViewPager.setCurrentItem(2);
+                        }
+
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
 			}
 		});
-
-
 
 	}
 
@@ -201,7 +222,9 @@ public class MainActivity extends AppCompatActivity {
 		public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 		                         Bundle savedInstanceState) {
 			Bundle bundle =getArguments();
+
 			int sonsNum = bundle.getInt(ARG_SECTION_NUMBER);
+			sp = PreferenceManager.getDefaultSharedPreferences(getContext());
 			getSchedule();
 			View rootView;
 			if(sonsNum==1) {
@@ -250,16 +273,13 @@ public class MainActivity extends AppCompatActivity {
 				kidClass.setText(kid.class_name);
 				kid = sons.get(1);
 				Glide.with(getContext()).load(kid.avatar).into(kidPic2);
-				Log.e("avatar",kid.avatar);
 				kidName2.setText(kid.name);
 				kidClass2.setText(kid.class_name);
 				kidSchudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Log.e("sec",Parent.mySons.get(0).Schedule);
 						if(Parent.mySons.get(0).Schedule.contains("no_schedule")) {
 							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
-							Log.e("mySons ooo",Parent.mySons.get(0).Schedule);
 						}else {
 							startActivity(new Intent(getActivity(), Schedule.class).putExtra("son",0));
 						}
@@ -268,7 +288,6 @@ public class MainActivity extends AppCompatActivity {
 				kid2Schudule.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View view) {
-						Log.e("sec",Parent.mySons.get(1).Schedule);
 						if(Parent.mySons.get(1).Schedule.contains("no_schedule")) {
 							Toast.makeText(getContext(), "No schedule available!", Toast.LENGTH_SHORT).show();
 						}else {
@@ -374,7 +393,6 @@ public class MainActivity extends AppCompatActivity {
 				kidClass.setText(kid.class_name);
 				kid = sons.get(1);
 				Glide.with(getContext()).load(kid.avatar).into(kidPic2);
-				Log.e("avatar",kid.avatar);
 				kidName2.setText(kid.name);
 				kidClass2.setText(kid.class_name);
 				kid = sons.get(2);
@@ -437,9 +455,10 @@ public class MainActivity extends AppCompatActivity {
 			return null;
 		}
 		public void getSchedule(){
-			JsonRequest.getDataWithIDArray(getContext(), "parent/student/schedule", String.valueOf(Parent.id), new JsonRequest.VolleyCallback() {
+			JsonRequest.getDataWithIDArray(getContext(), "parent/student/schedule", String.valueOf(sp.getInt("id",0)), new JsonRequest.VolleyCallback() {
 				@Override
 				public void onSuccess(String result) throws JSONException {
+					
 					JSONArray array = new JSONArray(result);
 					for(int i = 0 ; i <array.length();i++) {
 						JSONObject son = array.getJSONObject(i);
@@ -451,10 +470,7 @@ public class MainActivity extends AppCompatActivity {
 							schedule = webServiceUrl +sc;
 						}
 						Parent.mySons.get(i).Schedule = schedule;
-						Log.e("mySons json",schedule);
-						Log.e("mySons schedule",Parent.mySons.get(i).Schedule );
-
-					}
+						}
 				}
 			});
 		}

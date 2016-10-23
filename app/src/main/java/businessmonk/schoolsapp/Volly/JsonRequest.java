@@ -21,13 +21,11 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -49,12 +47,11 @@ public class JsonRequest {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
 		Uri.Builder uri  = Uri.parse(webServiceUrl).buildUpon();
 		uri.appendPath(controller);
-		Log.e("wrong ",uri.toString());
+		Log.e("route ",uri.toString());
 		StringRequest sr = new StringRequest(Request.Method.POST,uri.toString(), new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 				try {
-					Log.e("loggg",response);
 					callback.onSuccess(response);
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -90,7 +87,6 @@ public class JsonRequest {
 			protected Map<String,String> getParams(){
 				Map<String,String> params = new HashMap<String, String>();
 				for(int i = 0 ; i<queryname.length;i++){
-					Log.e(queryname[i], queryVal[i]);
 					params.put(queryname[i], queryVal[i]);
 				}
 				return params;
@@ -104,96 +100,6 @@ public class JsonRequest {
 			}
 		};
 		queue.add(sr);
-	}
-	public static void getData(Context context,String parameter,final VolleyCallback callback){
-		Uri.Builder uri  = Uri.parse("http://hitienda.com/api").buildUpon();
-		uri.appendPath(parameter);
-		String url = uri.toString();
-		Log.v(LOG_TAG,url);
-		JsonArrayRequest jsObjRequest = new JsonArrayRequest
-				(Request.Method.GET, url.toString(), null, new Response.Listener<JSONArray>() {
-
-					@Override
-					public void onResponse(JSONArray response) {
-
-						try {
-							callback.onSuccess(response.toString());
-						} catch (JSONException e1) {
-							e1.printStackTrace();
-						}
-					}
-				}, new Response.ErrorListener() {
-
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						// TODO Auto-generated method stub
-						Log.e(LOG_TAG,"error  "+error);
-
-					}
-				});
-		jsObjRequest.setRetryPolicy(new RetryPolicy() {
-			@Override
-			public int getCurrentTimeout() {
-				return 50000;
-			}
-
-			@Override
-			public int getCurrentRetryCount() {
-				return 50000;
-			}
-
-			@Override
-			public void retry(VolleyError error) throws VolleyError {
-
-			}
-		});
-// Access the RequestQueue through your singleton class.
-		MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
-	}
-	public static void getDataWithID(Context context,String parameter,String id,final VolleyCallback callback){
-		Uri.Builder uri  = Uri.parse("http://hitienda.com/api").buildUpon();
-		uri.appendPath(parameter);
-		uri.appendPath(id);
-		String url = uri.toString();
-		Log.v(LOG_TAG,url);
-		JsonObjectRequest jsObjRequest = new JsonObjectRequest
-				(Request.Method.GET, url.toString(), null, new Response.Listener<JSONObject>() {
-
-					@Override
-					public void onResponse(JSONObject response) {
-						try {
-							callback.onSuccess(response.toString());
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-					}
-				}, new Response.ErrorListener() {
-
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						// TODO Auto-generated method stub
-						Log.e(LOG_TAG,"error  "+error);
-
-					}
-				});
-		jsObjRequest.setRetryPolicy(new RetryPolicy() {
-			@Override
-			public int getCurrentTimeout() {
-				return 50000;
-			}
-
-			@Override
-			public int getCurrentRetryCount() {
-				return 50000;
-			}
-
-			@Override
-			public void retry(VolleyError error) throws VolleyError {
-
-			}
-		});
-// Access the RequestQueue through your singleton class.
-		MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
 	}
 	public static void getDataWithIDArray(Context context,String parameter,String id,final VolleyCallback callback){
 		Uri.Builder uri  = Uri.parse(webServiceUrl + "/").buildUpon();
@@ -294,7 +200,6 @@ public class JsonRequest {
 			@Override
 			public void onResponse(String response) {
 				try {
-					Log.d("xxxxxxxx", response + " --- " );
 					if(response.contains("wrong")){
 						Toast.makeText(context, "wrong mobile number", Toast.LENGTH_SHORT).show();
 						((Activity) context).finish();
