@@ -39,7 +39,7 @@ import businessmonk.schoolsapp.Login;
  */
 public class JsonRequest {
 	private static final String LOG_TAG = JsonRequest.class.getSimpleName();
-	public static String webServiceUrl = "http://192.168.1.2:9090/api";
+	public static String webServiceUrl = "http://192.168.1.5:9090/api";
 
 	public interface VolleyCallback{
 		void onSuccess(String result) throws JSONException;
