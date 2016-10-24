@@ -59,7 +59,11 @@ public class NotificationsListenerService extends GcmListenerService {
                 Log.w("Hey you", key);
             }
             type = bundle.getString("type");
-            notify(bundle);
+        if(type == null) {
+            bundle = bundle.getBundle("notification");
+        }
+        type = bundle.getString("type");
+        notify(bundle);/**/
             insertData(bundle.getString("title"), bundle.getString("body"), bundle.getString("type"), String.valueOf(System.currentTimeMillis()));
     }
     public void insertData(String title,String content,String type,String date) {

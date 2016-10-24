@@ -40,6 +40,7 @@ public class MessagesFragment extends Fragment {
 				String[]{"public"},null);
 		if(c.moveToFirst()){
 			c.moveToFirst();
+			list.clear();
 			do{
 				Message m = new Message();
 				m.content= c.getString(c.getColumnIndexOrThrow(MessagesColumns.CONTENT));

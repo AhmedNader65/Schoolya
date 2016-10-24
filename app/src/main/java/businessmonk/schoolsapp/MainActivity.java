@@ -38,7 +38,7 @@ import businessmonk.schoolsapp.fragment.NotificationFragment;
 import businessmonk.schoolsapp.gcm_push_notification.RegistrationService;
 
 public class MainActivity extends AppCompatActivity {
-	public static String webServiceUrl = "http://192.168.1.2:9090/";
+	public static String webServiceUrl = "http://192.168.1.7:9090/";
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
 				Log.v("my sons",result);
 				JSONArray mySons = new JSONArray(result);
 				Log.v("my sons", String.valueOf(mySons.length()));
+				Parent.mySons.clear();
 				sons = mySons.length();
 				for(int i = 0;i<mySons.length();i++){
 					JSONObject sonObj = mySons.getJSONObject(i);

@@ -37,7 +37,7 @@ import businessmonk.schoolsapp.Login;
  */
 public class JsonRequest {
 	private static final String LOG_TAG = JsonRequest.class.getSimpleName();
-	public static String webServiceUrl = "http://192.168.1.2:9090/api";
+	public static String webServiceUrl = "http://192.168.1.7:9090/api";
 
 	public interface VolleyCallback{
 		void onSuccess(String result) throws JSONException;
@@ -146,52 +146,6 @@ public class JsonRequest {
 // Access the RequestQueue through your singleton class.
 		MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
 	}
-	public static void getDataWith2IDArray(Context context,String parameter,String id,String company_id,final VolleyCallback callback){
-		Uri.Builder uri  = Uri.parse("http://hitienda.com/api").buildUpon();
-		uri.appendPath(parameter);
-		uri.appendPath(id);
-		uri.appendPath(company_id);
-		String url = uri.toString();
-		Log.v(LOG_TAG,url);
-		JsonArrayRequest jsObjRequest = new JsonArrayRequest
-				(Request.Method.GET, url.toString(), null, new Response.Listener<JSONArray>() {
-
-					@Override
-					public void onResponse(JSONArray response) {
-						try {
-							callback.onSuccess(response.toString());
-						} catch (JSONException e) {
-							e.printStackTrace();
-						}
-					}
-				}, new Response.ErrorListener() {
-
-					@Override
-					public void onErrorResponse(VolleyError error) {
-						// TODO Auto-generated method stub
-						Log.e(LOG_TAG,"error  "+error);
-
-					}
-				});
-		jsObjRequest.setRetryPolicy(new RetryPolicy() {
-			@Override
-			public int getCurrentTimeout() {
-				return 50000;
-			}
-
-			@Override
-			public int getCurrentRetryCount() {
-				return 50000;
-			}
-
-			@Override
-			public void retry(VolleyError error) throws VolleyError {
-
-			}
-		});
-// Access the RequestQueue through your singleton class.
-		MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
-	}
 	public static void postLogin(final Context context, final String userName, final String password, final VolleyCallback callback){
 		RequestQueue queue = Volley.newRequestQueue(context);
 		String url = webServiceUrl + "/login";
@@ -255,62 +209,4 @@ public class JsonRequest {
 		};
 		queue.add(sr);
 	}
-	public static void postmsg(final Context context, final String content, final String user_id,final String company_id, final VolleyCallback callback){
-		RequestQueue queue = Volley.newRequestQueue(context);
-		StringRequest sr = new StringRequest(Request.Method.POST,"http://hitienda.com/api/send_message", new Response.Listener<String>() {
-
-			@Override
-			public void onResponse(String response) {
-				try {
-					callback.onSuccess(response);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-					Toast.makeText(context,
-							"No Connection",
-							Toast.LENGTH_LONG).show();
-				} else if (error instanceof AuthFailureError) {
-					Toast.makeText(context,
-							"Check username & password",
-							Toast.LENGTH_LONG).show();
-				} else if (error instanceof ServerError) {
-					Toast.makeText(context,
-							"SORRY!, We have a problem try again",
-							Toast.LENGTH_LONG).show();
-				} else if (error instanceof NetworkError) {
-					Toast.makeText(context,
-							"Network Error try again",
-							Toast.LENGTH_LONG).show();
-				} else if (error instanceof ParseError) {
-					Toast.makeText(context,
-							"ooo we have a problem",
-							Toast.LENGTH_LONG).show();
-				}
-			}
-		}){
-			@Override
-			protected Map<String,String> getParams(){
-				Map<String,String> params = new HashMap<String, String>();
-				params.put("content",content);
-				params.put("user_id",user_id);;
-				params.put("company_id",company_id);;
-				params.put("direction","futc");;
-				return params;
-			}
-
-			@Override
-			public Map<String, String> getHeaders() throws AuthFailureError {
-				Map<String,String> params = new HashMap<String, String>();
-				params.put("Content-Type","application/x-www-form-urlencoded");
-				return params;
-			}
-		};
-		queue.add(sr);
-	}
-
 }

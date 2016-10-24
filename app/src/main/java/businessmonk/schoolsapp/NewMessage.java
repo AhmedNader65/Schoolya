@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -16,12 +17,10 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-import businessmonk.schoolsapp.Models.Message;
 import businessmonk.schoolsapp.Models.Parent;
 import businessmonk.schoolsapp.Volly.JsonRequest;
 import businessmonk.schoolsapp.data.MessagesColumns;
 import businessmonk.schoolsapp.data.MessagesProvider;
-import businessmonk.schoolsapp.fragment.MessagesFragment;
 
 public class NewMessage extends AppCompatActivity {
 
@@ -48,6 +47,7 @@ public class NewMessage extends AppCompatActivity {
 		list.add("Public message");
 		for(int i = 0 ; i < Parent.mySons.size();i++){
 			list.add(Parent.mySons.get(i).name);
+			Log.e("son","hello my son "+ i);
 		}
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, list);
@@ -110,12 +110,5 @@ public class NewMessage extends AppCompatActivity {
 		contentValues.put(MessagesColumns.DATE, date);
 		contentValues.put(MessagesColumns.INBOX, 0);
 		getApplicationContext().getContentResolver().insert(MessagesProvider.Messages.CONTENT_URI, contentValues);
-		Message m = new Message();
-		m.content=content;
-		m.title= title;
-		m.date= MessagesFragment.getDayName(this,System.currentTimeMillis());
-		m.inbox= 1;
-		MessagesFragment.list.add(m);
-		MessagesFragment.adapter.notifyDataSetChanged();
 	}
 }
