@@ -38,7 +38,11 @@ import businessmonk.schoolsapp.fragment.NotificationFragment;
 import businessmonk.schoolsapp.gcm_push_notification.RegistrationService;
 
 public class MainActivity extends AppCompatActivity {
+<<<<<<< HEAD
 	public static String webServiceUrl = "http://192.168.1.7:9090/";
+=======
+	public static String webServiceUrl = "http://192.168.1.5:9090/";
+>>>>>>> 88dc12ba909fe5a59ca4188c2fce9d1a08b3a5d7
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
